@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="calender_view" model="ir.ui.view">
+			<field name="name">calender</field>
+			<field name="model">cafe.item</field>
+			<field name="type">calender</field>
+            <field name="arch" type="xml">
+			<calender string="Demo" color="name" date_start="start_date" date_stop="end_date">
+				<field name="name"/>
+				<field name="description"/>
+			</calender>
+            </field>
+		</record>
+    </data>
+</openerp>

@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openerp>
+    <data>
+        <record id="item_form_id" model="ir.ui.view">
+            <field name="name">Cafe Item</field>
+			<field name="model">cafe.item</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+            	<form string="CAFE ITEM DETAILS">
+            	<header>
+				        <button name="mohit" type="object" string="Reset to draft" states="confirm,done"/>
+                        <button name="confirmed" type="object" string="Confirm" class="oe_highlight" states="draft"/>
+                        <button name="Done" type="object" string="Mark as done" class="oe_highlight" states="confirm"/>
+						<button name="create_demo_orm" type="object" string="Create Demo" class="oe_highlight" states="confirm"/>
+						<button name="write_demo_orm" type="object" string="Write Demo" class="oe_highlight" states="confirm"/>
+                        <field name="state" widget="statusbar"/>
+<!--                         <field name="state" widget="statusbar" clickable="1"/>-->
+				</header>	
+                     <sheet>            	
+	                    <group col="4">
+	                        <field name="name"/>
+							<field name="country_code_id"/>
+	                        <field name="partner_id" domain="[('customer','=',True)]"/>
+	                        <field name="description" attrs="{'readonly':[('state','=','confirm')],'required':[('state','=','draft')]}"/>
+	                        <field name="unit_price" />
+	                        <field name="qty" />
+	                        <field name="total_price" />
+	                        <field name="type" widget="radio" attrs="{'invisible':[('state','=','confirm')]}"/>
+	                        <field name="temp" />
+							<field name="item" widget="radio"/>
+	                        <field name="other_item" attrs="{'invisible':[('item','!=','other')]}"/>
+							<field name="total_pass_no"/>
+	                        
+	                    </group>
+	                    
+	                    <notebook>
+	                     <page string="Item Lines">
+	                       <field name="item_line" nolabel="1" colspan="4">
+	                         <tree editable="top">
+	                          <field name="product_id"/>
+	                          <field name="qty"/>
+	                          <field name="price"/>
+	                          <field name="subtotal"/>
+	                          <field name="cafe_id" invisible="1"/>
+	                         </tree>
+	                       </field>
+	                     </page>
+	                     
+	                     <page string="Partners">
+							 <field name="partner_ids"/>
+	                     </page>
+	                     </notebook>
+
+						 <group class="oe_subtotal_footer oe_right">
+							 <field name="total" class="oe_subtotal_footer_seperator"/>
+						 </group>
+	                  </sheet>  
+          		</form>
+          </field>
+      </record>
+
+        <record id="item_tree_id" model="ir.ui.view">
+            <field name="name">cafe_item</field>
+			<field name="model">cafe.item</field>
+		    <field name="type">tree</field>
+			<field name="arch" type="xml">
+	            <tree string="CAFE ITEM DETAILS">
+	                <field name="name" />
+	                <field name="description" />
+	                <field name="unit_price" />
+	                <field name="type" widget="radio" />
+	                <field name="temp" widget="radio" />
+	            </tree>
+           </field>
+        </record>
+
+
+
+        <record id="action_item" model="ir.actions.act_window">
+            <field name="name">Cafe</field>
+            <field name="res_model">cafe.item</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="item_tree_id"/>
+        </record>
+
+        <menuitem id="menu_cafe_top" name="Cafe Management" />
+        <menuitem id="menu_cafe_item_side" action="action_item" name="Cafe Items" parent ="menu_cafe_top"/>
+
+
+		<!-- cafe form view -->
+		<record id="cafe_form_id" model="ir.ui.view">
+			<field name="name">cafe table</field>
+			<field name="model">cafe.item.line</field>
+			<field name="type">form</field>
+			<field name="arch" type="xml">
+				<form string="CAFE TABLE">
+					<sheet>
+						<group col="4">
+								<field name="product_id"/>
+								<field name="qty"/>
+								<field name="price"/>
+								<field name="subtotal"/>
+						</group>
+					</sheet>
+				</form>
+			</field>
+		</record>
+
+		<!-- cafe tree views -->
+
+		<record id="cafe_tree_id" model="ir.ui.view">
+			<field name="name">cafe_table</field>
+			<field name="model">cafe.item.line</field>
+			<field name="type">tree</field>
+			<field name="arch" type="xml">
+				<tree string="Cafe Table">
+					<field name="product_id"/>
+					<field name="qty"/>
+					<field name="price"/>
+					<field name="subtotal"/>
+				</tree>
+			</field>
+		</record>
+
+		<!-- action cafe table-->
+		<record id="cafe_action_id" model="ir.actions.act_window">
+			<field name="name">cafe table</field>
+			<field name="res_model">cafe.item.line</field>
+			<field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="cafe_tree_id"/>
+		</record>
+
+		<menuitem id="menu_id" name="Cafe Table"/>
+		<menuitem id="menu_id_side" action="cafe_action_id" name="cafe table" parent="menu_id"/>
+    </data>
+</openerp>
